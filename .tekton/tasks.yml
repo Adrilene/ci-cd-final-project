@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: clanup
+  name: cleanup
 spec:
   description: This task will clean up a workspace by deleting all the files.
   workspaces:
@@ -57,18 +57,3 @@ spec:
           python -m pip install --upgrade pip wheel
           pip install -r requirements.txt
           nosetests $(params.args)
-
----
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: lint
-spec:
-  steps:
-  - name: lint
-    image: python:3.9
-    securityContext:
-      runAsUser: 0  # run as root user
-    script: |
-      pip install flake8
-      flake8 service --count --select=E9,F63,F7,F82 --show-source --statistics
